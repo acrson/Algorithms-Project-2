@@ -25,8 +25,49 @@ import time
 
 # BUBBLE SORT *****
 
+def bubbleSort(myList):
+    sorted = False;
+    for i in range(len(myList)-1):
+        swap = False;
+        if not sorted:
+            for j in range(len(myList)-i-1):
+                if myList[j] > myList[j + 1]:
+                    myList[j], myList[j+1] = myList[j+1], myList[j]
+                    swap = True;
+                if not swap:
+                    break
+    return myList;
+
 # MERGE SORT ******
 
+# Divide
+def merge_sort(m):
+    if len(m) <= 1:
+        return m
+    middle = len(m) //2
+    left = m[:middle]
+    right = m[middle:]
+    
+    left = merge_sort(left)
+    right = merge_sort(right)
+    return list(merge(left, right))
+
+#Conquer
+def merge(left,right):
+    result = []
+    left_in , right_in = 0,0
+    while left_in < len(left) and right_in < len(right):
+        if left[left_in] <= right[right_in]:
+            result.append(left[left_in])
+            left_in += 1
+        else:
+            result.append(right[right_in])
+            right_in += 1
+    if left_in < len(left):
+        result.extend(left[left_in:])
+    if right_in < len(right):
+        result.extend(right[right_in:])
+    return result
 # QUICK SORT ******
 
 # RADIX SORT ******
@@ -118,7 +159,7 @@ def main():
     for i in range(4):
         # If selected sort is radix sort:
         t0 = time.perf_counter()
-        sorted_list = radix_sort(arr[i])
+        sorted_list = bubbleSort(arr[i])
         t1 = time.perf_counter()  
         # Replace "Radix sort" with sort_name when more sorts are implemented into an if-else chain
         print("Time cost of: ", "Radix sort,", len(arr[i]), "elements,", arr_name, ":", t1-t0, "seconds.\n")
