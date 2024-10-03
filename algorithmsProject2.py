@@ -70,6 +70,35 @@ def merge(left,right):
     return result
 # QUICK SORT ******
 
+# Funct (find divi pos.)
+def divider(array, low, high):
+    pivot = array[high] #pivot left/right
+    i = low - 1 # ptr i
+
+    # traverse all ele.// ele. compare pivot
+    for j in range(low, high):
+        if array[j] <= pivot:
+            i = i + 1
+            (array[i], array[j]) = (array[j], array[i]) # swap i/j
+
+    # Swap the pivot ele. w/ higher ele
+    (array[i + 1], array[high]) = (array[high], array[i + 1])
+    return i + 1
+
+# actual quick sort
+def quick(array, low, high):
+    if low < high:
+
+        # Find pivot ele
+        pi = divider(array, low, high)
+
+        # Recursive call left 
+        quick(array, low, pi - 1)
+
+        # Recursive call right
+        quick(array, pi + 1, high) 
+
+
 # RADIX SORT ******
 
 # Set current_digit to be the digit of the element currently being operated on
@@ -104,7 +133,67 @@ def radix_sort(arr):
 
 
 
-# MAIN ************
+# MAIN ***********************************************************************************************************************************************
+"""
+Order of menu content:
+    - indiv sort menus
+    - sortType
+    - front end
+    - menu
+    
+"""
+
+def quickMenu():
+    boolsub = False
+    choice2 = ['']
+    while (boolsub == False):
+        print ("\n Case Scenarios for Quick Sort\n---------------")
+        print("    1. Best case")
+        print("    2. Average case")
+        print("    3. Worst case")
+        print("    4. Exit Quick sort test")
+        choice2[0] = input("    \nSelect a sorting algorithm (1-5): ")
+
+def sortType(choice1):
+    boolsub = False
+    
+    # calls one of these functions
+    while (boolsub == False):
+        #calls each sort
+        if choice1[0] == '1': # Bubble
+            print("no info yet")
+     
+        elif choice1[0] == '2': # Merge
+            print("no info yet")
+ 
+        elif choice1[0] == '3': # Quick
+            quickMenu(choice1)
+     
+        elif choice1[0] == '4': # Radix
+            print("no info yet")
+            
+        else:
+            choice1 = input("Invalid choice made. Please enter one of the available options: ")
+
+def frontEnd():
+    bool = False
+    choice1 = ['']
+    while(bool == False):
+        print("\nWelcome to the test suite of selected sorting algorithms!\n")
+        print("Select the Sorting Algorithm you want to test.\n-------------------------")
+        print("    1. Bubble Sort")
+        print("    2. Merge Sort")
+        print("    3. Quick Sort")
+        print("    4. Radix Sort")
+        print("    5. Exit")
+        choice1[0] = input("    \nSelect a sorting algorithm (1-5): ")
+        
+        # call sort types
+        sortType(choice1)
+        
+        if choice1[0] == '5':  # Check if exit was chosen
+            print("\nBye!") 
+            break
 
 def main():
     print("- SORT TESTER -\n")
@@ -121,20 +210,8 @@ def main():
         best_arr.append(radix_sort(avg_arr[i]))
         worst_arr.append(best_arr[i][::-1])
     
-    
-    
-    # Just some testing for us to see the best avg and worst to make sure it works correctly
-    '''
-    for i in range(4):
-        n = 100 * pow(10, i)
-        print("Best array of size", n, ":", best_arr[i])
-        print("\n")
-        print("Average array of size", n, ":", avg_arr[i])
-        print("\n")
-        print("Worst array of size", n, ":", worst_arr[i])
-        print("\n")
-    '''
-    
+    # front end I/O
+    frontEnd() 
     
     print("Best:  1")
     print("Avg:   2")
@@ -159,7 +236,7 @@ def main():
     for i in range(4):
         # If selected sort is radix sort:
         t0 = time.perf_counter()
-        sorted_list = bubbleSort(arr[i])
+        sorted_list = radix_sort(arr[i]) # hey loook this thongy, need? yes? no?
         t1 = time.perf_counter()  
         # Replace "Radix sort" with sort_name when more sorts are implemented into an if-else chain
         print("Time cost of: ", "Radix sort,", len(arr[i]), "elements,", arr_name, ":", t1-t0, "seconds.\n")
