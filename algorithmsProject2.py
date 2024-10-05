@@ -1,29 +1,17 @@
 """
 Algorithms Project 2
 
-TO-DO:
-    FAY:
-    - Implement bubble sort
-    - Implement merge sort
-    
-    
-    CARSON:
-    - Premake arrays before testing for best, avg, worst cases depending on array size n
-    - Document how long best, avg, worst case took for each sort, with array size n = 100, 1000, 10000
-    
-    SERA:
-    - Implement quick sort
-    - Front end
+Members:
+Fathia Tafesh
+Sera Yang
 
-Also, maybe we should implement front end / main last this time? I think we had
-a good idea trying to do it first last time but it bit us in the booties a little.
-We could discuss this in greater detail though
 """
 
 import random as rd
 import time
+import sys
 
-# BUBBLE SORT *****
+# BUBBLE SORT *********************************************************************************************************
 
 def bubbleSort(myList):
     sorted = False;
@@ -38,7 +26,7 @@ def bubbleSort(myList):
                     break
     return myList;
 
-# MERGE SORT ******
+# MERGE SORT ***************************************************************************************************************
 
 # Divide
 def merge_sort(m):
@@ -68,38 +56,39 @@ def merge(left,right):
     if right_in < len(right):
         result.extend(right[right_in:])
     return result
-# QUICK SORT ******
+
+# QUICK SORT ******************************************************************************************************************
 
 # Funct (find divi pos.)
-def divider(array, low, high):
-    pivot = array[high] #pivot left/right
+def divider(arr, low, high):
+    pivot = arr[high] #pivot left/right
     i = low - 1 # ptr i
 
     # traverse all ele.// ele. compare pivot
     for j in range(low, high):
-        if array[j] <= pivot:
+        if arr[j] <= pivot:
             i = i + 1
-            (array[i], array[j]) = (array[j], array[i]) # swap i/j
-
+            (arr[i], arr[j]) = (arr[j], arr[i]) # swap i/j
+            
     # Swap the pivot ele. w/ higher ele
-    (array[i + 1], array[high]) = (array[high], array[i + 1])
+    (arr[i + 1], arr[high]) = (arr[high], arr[i + 1])
     return i + 1
 
 # actual quick sort
-def quick(array, low, high):
+def quick(arr, low, high):
     if low < high:
 
         # Find pivot ele
-        pi = divider(array, low, high)
+        pi = divider(arr, low, high)
 
         # Recursive call left 
-        quick(array, low, pi - 1)
+        quick(arr, low, pi - 1)
 
         # Recursive call right
-        quick(array, pi + 1, high) 
+        quick(arr, pi + 1, high) 
 
 
-# RADIX SORT ******
+# RADIX SORT **********************************************************************************************************************
 
 # Set current_digit to be the digit of the element currently being operated on
 def current_digit(element, digit):
@@ -133,7 +122,7 @@ def radix_sort(arr):
 
 
 
-# MAIN ***********************************************************************************************************************************************
+# MAIN ***************************************************************************************************************************
 """
 Order of menu content:
     - indiv sort menus
@@ -142,61 +131,251 @@ Order of menu content:
     - menu
     
 """
+def radixMenu(best_arr, avg_arr, worst_arr):
+    boolsub2 = False
+    choice2 = ''
+    while (boolsub2 == False):
+        print ("\nCase Scenarios for Radix Sort\n---------------")
+        print("    1. Best case")
+        print("    2. Average case")
+        print("    3. Worst case")
+        print("    4. Exit Radix sort test")
+        choice2 = input("    \nSelect the case (1-4): ")
+        caseN = ''
+        arr = [] 
+        
+        # time complexity options
+        if choice2== '1': # best case
+            arr = best_arr
+            caseN = 'best'
+        elif choice2 == '2': # avg case
+            arr = avg_arr
+            caseN = 'average'
+        elif choice2 == '3': # worst case
+            arr = worst_arr
+            caseN = 'worse'
+        elif choice2 == '4': # exit menu
+            boolsub2 = True 
+            continue
+        else:
+            choice2 = input("Invalid choice made. Please enter one of the available options (1-4): ")
+        
+        # run cases
+        sys.setrecursionlimit(100001)
+        # counts time for sort
+        for i in range(len(arr)):
+            if len(arr[i]) > 10000:  # stop at 10,000
+                break
+            
+            t0 = time.perf_counter()
+            radix_sort(arr[i])
+            t1 = time.perf_counter()
+            print ("\nIn the ", caseN, " case,")
+            print("For N = ", {len(arr[i])}, " it takes ", (t1 - t0), "seconds")
+            
+        choiceN = input("Do you want to input another value of N (Y/N)? ")
+        if choiceN == 'y' or choiceN == 'Y':
+            choiceN2 = int(input("What is the N? "))
+            t0 = time.perf_counter()
+            radix_sort(arr[i])
+            t1 = time.perf_counter()
+            print("\nFor N = ", choiceN2, ", it takes ", (t1 - t0)," seconds")
+            
+        elif choiceN == "n" or choiceN =="N":
+            continue
+ 
 
-def quickMenu():
-    boolsub = False
-    choice2 = ['']
-    while (boolsub == False):
-        print ("\n Case Scenarios for Quick Sort\n---------------")
+
+def quickMenu(best_arr, avg_arr, worst_arr):
+    boolsub2 = False
+    choice2 = ''
+    while (boolsub2 == False):
+        print ("\nCase Scenarios for Quick Sort\n---------------")
         print("    1. Best case")
         print("    2. Average case")
         print("    3. Worst case")
         print("    4. Exit Quick sort test")
-        choice2[0] = input("    \nSelect a sorting algorithm (1-5): ")
+        choice2 = input("    \nSelect the case (1-4): ")
+        caseN = ''
+        arr = [] 
+        
+        # time complexity options
+        if choice2== '1': # best case
+            arr = best_arr
+            caseN = 'best'
+        elif choice2 == '2': # avg case
+            arr = avg_arr
+            caseN = 'average'
+        elif choice2 == '3': # worst case
+            arr = worst_arr
+            caseN = 'worse'
+        elif choice2 == '4': # exit menu
+            boolsub2 = True 
+            continue
+        else:
+            choice2 = input("Invalid choice made. Please enter one of the available options (1-4): ")
+        
+        # run cases
+        sys.setrecursionlimit(100001)
+        # counts time for sort
+        for i in range(len(arr)):
+            if len(arr[i]) > 10000:  # stop at 10,000
+                break
+            
+            t0 = time.perf_counter()
+            quick(arr[i], 0, len(arr[i]) - 1)
+            t1 = time.perf_counter()
+            print ("\nIn the ", caseN, " case,")
+            print("For N = ", {len(arr[i])}, " it takes ", (t1 - t0), "seconds")
+            
+        choiceN = input("Do you want to input another value of N (Y/N)? ")
+        if choiceN == 'y' or choiceN == 'Y':
+            choiceN2 = int(input("What is the N? "))
+            t0 = time.perf_counter()
+            quick(arr[i], 0, choiceN2 - 1)
+            t1 = time.perf_counter()
+            print("\nFor N = ", choiceN2, ", it takes ", (t1 - t0)," seconds")
+            
+        elif choiceN == "n" or choiceN =="N":
+            continue
+ 
+def mergeMenu(best_arr, avg_arr, worst_arr):
+     boolsub2 = False
+     choice2 = ''
+     while (boolsub2 == False):
+         print ("\nCase Scenarios for Merge Sort\n---------------")
+         print("    1. Best case")
+         print("    2. Average case")
+         print("    3. Worst case")
+         print("    4. Exit Merge sort test")
+         choice2 = input("    \nSelect the case (1-4): ")
+         caseN = ''
+         arr = [] 
+         
+         # time complexity options
+         if choice2== '1': # best case
+             arr = best_arr
+             caseN = 'best'
+         elif choice2 == '2': # avg case
+             arr = avg_arr
+             caseN = 'average'
+         elif choice2 == '3': # worst case
+             arr = worst_arr
+             caseN = 'worse'
+         elif choice2 == '4': # exit menu
+             boolsub2 = True 
+             continue
+         else:
+             choice2 = input("Invalid choice made. Please enter one of the available options (1-4): ")
+         
+         # run cases
+         sys.setrecursionlimit(100001)
+         # counts time for sort
+         for i in range(len(arr)):
+             if len(arr[i]) > 10000:  # stop at 10,000
+                 break
+             
+             t0 = time.perf_counter()
+             merge_sort(arr[i])
+             t1 = time.perf_counter()
+             print ("\nIn the ", caseN, " case,")
+             print("For N = ", {len(arr[i])}, " it takes ", (t1 - t0), "seconds")
+             
+         choiceN = input("Do you want to input another value of N (Y/N)? ")
+         if choiceN == 'y' or choiceN == 'Y':
+             choiceN2 = int(input("What is the N? "))
+             t0 = time.perf_counter()
+             merge_sort(arr[i])
+             t1 = time.perf_counter()
+             print("\nFor N = ", choiceN2, ", it takes ", (t1 - t0)," seconds")
+             
+         elif choiceN == "n" or choiceN =="N":
+             continue
+         
 
-def sortType(choice1):
+def bubbleMenu(best_arr, avg_arr, worst_arr):
+    boolsub2 = False
+    choice2 = ''
+    while (boolsub2 == False):
+        print ("\nCase Scenarios for Bubble Sort\n---------------")
+        print("    1. Best case")
+        print("    2. Average case")
+        print("    3. Worst case")
+        print("    4. Exit Bubble sort test")
+        choice2 = input("    \nSelect the case (1-4): ")
+        caseN = ''
+        arr = [] 
+        
+        # time complexity options
+        if choice2== '1': # best case
+            arr = best_arr
+            caseN = 'best'
+        elif choice2 == '2': # avg case
+            arr = avg_arr
+            caseN = 'average'
+        elif choice2 == '3': # worst case
+            arr = worst_arr
+            caseN = 'worse'
+        elif choice2 == '4': # exit menu
+            boolsub2 = True 
+            continue
+        else:
+            choice2 = input("Invalid choice made. Please enter one of the available options (1-4): ")
+        
+        # run cases
+        sys.setrecursionlimit(100001)
+        # counts time for sort
+        for i in range(len(arr)):
+            if len(arr[i]) > 10000:  # stop at 10,000
+                break
+            
+            t0 = time.perf_counter()
+            bubbleSort(arr[i])
+            t1 = time.perf_counter()
+            print ("\nIn the ", caseN, " case,")
+            print("For N = ", {len(arr[i])}, " it takes ", (t1 - t0), "seconds")
+            
+        choiceN = input("Do you want to input another value of N (Y/N)? ")
+        if choiceN == 'y' or choiceN == 'Y':
+            choiceN2 = int(input("What is the N? "))
+            t0 = time.perf_counter()
+            bubbleSort(arr[i])
+            t1 = time.perf_counter()
+            print("\nFor N = ", choiceN2, ", it takes ", (t1 - t0)," seconds")
+            
+        elif choiceN == "n" or choiceN =="N":
+            continue
+ 
+
+def sortType(choice1, best_arr, avg_arr, worst_arr):
     boolsub = False
     
     # calls one of these functions
     while (boolsub == False):
         #calls each sort
         if choice1[0] == '1': # Bubble
-            print("no info yet")
+            bubbleMenu(best_arr, avg_arr, worst_arr)
+            return 
      
         elif choice1[0] == '2': # Merge
-            print("no info yet")
+            mergeMenu(best_arr, avg_arr, worst_arr)
+            return
  
         elif choice1[0] == '3': # Quick
-            quickMenu(choice1)
-     
-        elif choice1[0] == '4': # Radix
-            print("no info yet")
+            quickMenu(best_arr, avg_arr, worst_arr)
+            return
             
+        elif choice1[0] == '4': # Radix
+            radixMenu(best_arr, avg_arr, worst_arr)
+            return
+            
+        elif choice1[0] == '5':
+            print("Bye!")
+            boolsub = True 
         else:
             choice1 = input("Invalid choice made. Please enter one of the available options: ")
 
-def frontEnd():
-    bool = False
-    choice1 = ['']
-    while(bool == False):
-        print("\nWelcome to the test suite of selected sorting algorithms!\n")
-        print("Select the Sorting Algorithm you want to test.\n-------------------------")
-        print("    1. Bubble Sort")
-        print("    2. Merge Sort")
-        print("    3. Quick Sort")
-        print("    4. Radix Sort")
-        print("    5. Exit")
-        choice1[0] = input("    \nSelect a sorting algorithm (1-5): ")
-        
-        # call sort types
-        sortType(choice1)
-        
-        if choice1[0] == '5':  # Check if exit was chosen
-            print("\nBye!") 
-            break
-
 def main():
-    print("- SORT TESTER -\n")
     avg_arr = []
     best_arr = []
     worst_arr = []
@@ -210,37 +389,27 @@ def main():
         best_arr.append(radix_sort(avg_arr[i]))
         worst_arr.append(best_arr[i][::-1])
     
-    # front end I/O
-    frontEnd() 
+    # front end
+    choice1 = ['']
+    repeat = True 
+    while(repeat == True):
+        print("\nWelcome to the test suite of selected sorting algorithms!\n")
+        print("Select the Sorting Algorithm you want to test.\n-------------------------")
+        print("    1. Bubble Sort")
+        print("    2. Merge Sort")
+        print("    3. Quick Sort")
+        print("    4. Radix Sort")
+        print("    5. Exit")
+        choice1[0] = input("    \nSelect a sorting algorithm (1-5): ")
+        
+        # Calls sort type
+        sortType(choice1, best_arr, avg_arr, worst_arr)
+       
+        if choice1[0] == '5': # Check if exit was chosen
+            break
     
-    print("Best:  1")
-    print("Avg:   2")
-    print("Worst: 3\n")
-    
-    arr_option = input("Which array would you like to sort? : ")
-    print("\n")
-    
-    if arr_option == '1':
-        arr = best_arr
-        arr_name = "Best case"
-    elif arr_option == '2':
-        arr = avg_arr
-        arr_name = "Average case"
-    elif arr_option == '3':
-        arr = worst_arr
-        arr_name = "Worst case"
-    else:
-        # gotta make this into an error handling loop
-        print("ERROR: INVALID ARRAY OPTION SELECTED. PLEASE SELECT A NUMBER 1 - 3.\n")
-    
-    for i in range(4):
-        # If selected sort is radix sort:
-        t0 = time.perf_counter()
-        sorted_list = radix_sort(arr[i]) # hey loook this thongy, need? yes? no?
-        t1 = time.perf_counter()  
-        # Replace "Radix sort" with sort_name when more sorts are implemented into an if-else chain
-        print("Time cost of: ", "Radix sort,", len(arr[i]), "elements,", arr_name, ":", t1-t0, "seconds.\n")
 
-
+# calls main :))))) 
 if __name__ == "__main__":
     main()
+ 
